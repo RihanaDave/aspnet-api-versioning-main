@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+ <PropertyGroup>
+  <VersionPrefix>7.1.0</VersionPrefix>
+  <AssemblyVersion>7.1.0.0</AssemblyVersion>
+  <TargetFrameworks>net45;net472</TargetFrameworks>
+  <RootNamespace>Asp.Versioning</RootNamespace>
+  <AssemblyTitle>ASP.NET Web API Versioning API Explorer for OData v4.0</AssemblyTitle>
+  <Description>The API Explorer extensions for ASP.NET Web API Versioning and OData v4.0.</Description>
+  <PackageTags>Asp;AspNet;WebAPI;Versioning;ApiExplorer;OData</PackageTags>
+ </PropertyGroup>
+
+ <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+  <Compile Include="$(BackportDir)Array.cs" Visible="false" />
+ </ItemGroup>
+
+ <ItemGroup>
+  <Compile Include="$(BackportDir)ArgumentException.cs" Visible="false" />
+  <Compile Include="$(BackportDir)ArgumentNullException.cs" Visible="false" />
+  <Compile Include="$(BackportDir)CallerArgumentExpressionAttribute.cs" Visible="false" />
+  <Compile Include="$(BackportDir)BitOperations.cs" Visible="false" />
+  <Compile Include="$(BackportDir)HashCode.cs" Visible="false" />
+  <Compile Include="$(BackportDir)NullableAttributes.cs" Visible="false" />
+  <Compile Include="$(BackportDir)StringExtensions.cs" Visible="false" />
+  <Compile Include="..\..\..\..\Common\src\Common.OData\TypeExtensions.cs" Link="TypeExtensions.cs" />
+  <Compile Include="..\..\..\WebApi\src\Asp.Versioning.WebApi.ApiExplorer\System.Web.Http\Controllers\HttpActionDescriptorExtensions.cs" Link="System.Web.Http\Controllers\HttpActionDescriptorExtensions.cs" />
+ </ItemGroup>
+
+ <ItemGroup Condition=" '$(TargetFramework)' != 'net45' ">
+  <Compile Remove="net45\**\*.cs" />
+  <None Include="net45\**\*.cs" />
+ </ItemGroup>
+
+ <ItemGroup>
+  <Using Include="Backport.ArgumentException" Alias="ArgumentException" />
+  <Using Include="Backport.ArgumentNullException" Alias="ArgumentNullException" />
+  <Using Include="Asp.Versioning.SR" Alias="BackportSR" />
+  <Using Include="Asp.Versioning.ODataExpSR" Alias="Format" />
+ </ItemGroup>
+
+ <ItemGroup>
+  <Reference Include="System.ComponentModel.DataAnnotations" />
+ </ItemGroup>
+
+ <ItemGroup>
+  <ProjectReference Include="..\..\..\WebApi\src\Asp.Versioning.WebApi.ApiExplorer\Asp.Versioning.WebApi.ApiExplorer.csproj" />
+  <ProjectReference Include="..\Asp.Versioning.WebApi.OData\Asp.Versioning.WebApi.OData.csproj" />
+ </ItemGroup>
+
+ <Import Project="..\..\..\..\Common\src\Common.OData.ApiExplorer\Common.OData.ApiExplorer.projitems" Label="Shared" />
+
+</Project>

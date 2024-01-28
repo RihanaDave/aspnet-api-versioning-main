@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+ <PropertyGroup>
+  <VersionPrefix>7.1.0</VersionPrefix>
+  <AssemblyVersion>7.1.0.0</AssemblyVersion>
+  <TargetFrameworks>net45;net472</TargetFrameworks>
+  <AssemblyTitle>ASP.NET Web API Versioning</AssemblyTitle>
+  <Description>A service API versioning library for Microsoft ASP.NET Web API.</Description>
+  <RootNamespace>Asp.Versioning</RootNamespace>
+  <PackageTags>Asp;AspNet;WebAPI;Versioning</PackageTags>
+ </PropertyGroup>
+
+ <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+  <Compile Include="$(BackportDir)Array.cs" Visible="false" />
+ </ItemGroup>
+
+ <ItemGroup>
+  <Compile Include="$(BackportDir)ArgumentException.cs" Visible="false" />
+  <Compile Include="$(BackportDir)ArgumentNullException.cs" Visible="false" />
+  <Compile Include="$(BackportDir)CallerArgumentExpressionAttribute.cs" Visible="false" />
+  <Compile Include="$(BackportDir)BitOperations.cs" Visible="false" />
+  <Compile Include="$(BackportDir)HashCode.cs" Visible="false" />
+  <Compile Include="$(BackportDir)NullableAttributes.cs" Visible="false" />
+ </ItemGroup>
+
+ <ItemGroup>
+  <Using Include="Backport.ArgumentException" Alias="ArgumentException" />
+  <Using Include="Backport.ArgumentNullException" Alias="ArgumentNullException" />
+  <Using Include="Asp.Versioning.SR" Alias="BackportSR" />
+  <Using Include="Asp.Versioning.CommonSR" Alias="Format" />
+  <Using Include="Asp.Versioning.MvcSR" Alias="MvcFormat" />
+ </ItemGroup>
+
+ <ItemGroup>
+  <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="[5.2.7,6.0.0)" />
+ </ItemGroup>
+
+ <ItemGroup>
+  <InternalsVisibleTo Include="Asp.Versioning.WebApi.ApiExplorer" Key="$(StrongNamePublicKey)" />
+ </ItemGroup>
+
+ <ItemGroup>
+  <ProjectReference Include="..\..\..\..\Abstractions\src\Asp.Versioning.Abstractions\Asp.Versioning.Abstractions.csproj" />
+ </ItemGroup>
+
+ <Import Project="..\..\..\..\Common\src\Common\Common.projitems" Label="Shared" />
+ <Import Project="..\..\..\..\Common\src\Common.ProblemDetails\Common.ProblemDetails.projitems" Label="Shared" />
+ <Import Project="..\..\..\..\Common\src\Common.Mvc\Common.Mvc.projitems" Label="Shared" />
+ <Import Project="..\..\..\..\Common\src\Common.TypeInfo\Common.TypeInfo.projitems" Label="Shared" />
+
+</Project>

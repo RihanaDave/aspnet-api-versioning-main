@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+ <Import Project="$([MSBuild]::GetPathOfFileAbove('$(MSBuildThisFile)','$(MSBuildThisFileDirectory)../'))" />
+
+ <ItemGroup>
+  <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.2.3" />
+ </ItemGroup>
+
+</Project>

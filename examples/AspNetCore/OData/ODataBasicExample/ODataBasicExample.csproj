@@ -1,0 +1,7 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+ <ItemGroup>
+   <ProjectReference Include="..\..\..\..\src\AspNetCore\OData\src\Asp.Versioning.OData\Asp.Versioning.OData.csproj" />
+ </ItemGroup>
+
+</Project>

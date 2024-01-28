@@ -1,0 +1,47 @@
+parameters:
+- name: solution
+  type: string
+  default: ''
+- name: configuration
+  type: string
+  default: Release
+- name: versionSuffix
+  type: string
+  default: ''
+
+steps:
+- task: DotNetCoreCLI@2
+  displayName: Pack Packages
+  inputs:
+    command: pack
+    projects: ${{ parameters.solution }}
+    ${{ if eq(parameters.versionSuffix, '') }}:
+        arguments: --no-build --configuration ${{ parameters.configuration }}
+    ${{ else }}:
+        arguments: --no-build --configuration ${{ parameters.configuration }} --version-suffix ${{ parameters.versionSuffix }}
+    outputDir: $(Build.ArtifactStagingDirectory)/packages
+    noBuild: true
+
+- script: dotnet tool restore
+  displayName: Restore Tools
+
+- script: >
+    dotnet sign code azure-key-vault "*.nupkg"
+    --base-directory "$(Build.ArtifactStagingDirectory)/packages"
+    --publisher-name "ASP.NET API Versioning"
+    --description "Adds versioning semantics to APIs built with ASP.NET"
+    --description-url "https://github.com/dotnet/aspnet-api-versioning"
+    --azure-key-vault-tenant-id "$(SignTenantId)"
+    --azure-key-vault-client-id "$(SignClientId)"
+    --azure-key-vault-client-secret "$(SignClientSecret)"
+    --azure-key-vault-certificate "$(SignKeyVaultCertificate)"
+    --azure-key-vault-url "$(SignKeyVaultUrl)"
+    --timestamp-url http://timestamp.digicert.com
+  displayName: Sign Artifacts
+
+- task: PublishBuildArtifacts@1
+  displayName: Publish Artifacts
+  inputs:
+    pathToPublish: $(Build.ArtifactStagingDirectory)/packages
+    publishLocation: Container
+    artifactName: NuGet Packages

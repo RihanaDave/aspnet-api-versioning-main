@@ -1,0 +1,49 @@
+trigger:
+  branches:
+    include:
+    - main
+    - release/*
+  paths:
+    exclude:
+    - .config
+    - .devcontainer
+    - .github
+    - .vscode
+    - docs
+    - .vsconfig
+    - LICENSE.txt
+    - logo.svg
+    - README.md
+
+pr:
+- main
+- release/*
+
+# build at least once a month so the build badge is up-to-date
+schedules:
+- cron: '0 0 1 * *'
+  displayName: Monthly build
+  branches:
+    include:
+    - main
+  always: true
+
+pool:
+  vmImage: windows-latest
+
+variables:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+steps:
+- template: build/steps-ci.yml
+  parameters:
+    solution: $(Solution)
+    configuration: $(BuildConfiguration)
+
+- ${{ if eq(variables['Build.Reason'], 'Manual') }}:
+  - template: build/steps-release.yml
+    parameters:
+      solution: $(Solution)
+      configuration: $(BuildConfiguration)
+      versionSuffix: $(VersionSuffix)

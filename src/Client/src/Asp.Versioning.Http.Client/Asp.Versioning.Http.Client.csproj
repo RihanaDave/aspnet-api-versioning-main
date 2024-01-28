@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+ <PropertyGroup>
+  <VersionPrefix>8.0.0</VersionPrefix>
+  <AssemblyVersion>8.0.0.0</AssemblyVersion>
+  <TargetFrameworks>$(DefaultTargetFramework);netstandard1.1;netstandard2.0</TargetFrameworks>
+  <RootNamespace>Asp.Versioning.Http</RootNamespace>
+  <AssemblyTitle>API Versioning Client Extensions</AssemblyTitle>
+  <Description>The HTTP client extensions library for API versioning.</Description>
+  <PackageTags>Asp;AspNet;AspNetCore;Versioning;Http</PackageTags>
+ </PropertyGroup>
+
+ <PropertyGroup Condition=" '$(TargetFramework)' == '$(DefaultTargetFramework)' ">
+  <IsAotCompatible>true</IsAotCompatible>
+ </PropertyGroup>
+
+ <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.1' ">
+  <Compile Remove="net#.0\**\*.cs" />
+  <None Include="net#.0\**\*.cs" />
+ </ItemGroup>
+
+ <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.1' ">
+  <Compile Include="$(BackportDir)Array.cs" Visible="false" />
+ </ItemGroup>
+
+ <ItemGroup Condition=" '$(TargetFrameworkIdentifier)' == '.NETStandard' ">
+  <Compile Include="$(BackportDir)ArgumentException.cs" Visible="false" />
+  <Compile Include="$(BackportDir)ArgumentNullException.cs" Visible="false" />
+  <Compile Include="$(BackportDir)CallerArgumentExpressionAttribute.cs" Visible="false" />
+  <Compile Include="$(BackportDir)NullableAttributes.cs" Visible="false" />
+  <Compile Include="$(BackportDir)StringExtensions.cs" Visible="false" />
+ </ItemGroup>
+
+ <ItemGroup>
+  <PackageReference Include="System.Net.Http" Version="4.3.4" />
+ </ItemGroup>
+
+ <ItemGroup Condition=" '$(TargetFramework)' != 'netstandard1.1' ">
+  <PackageReference Include="Microsoft.Extensions.Http" Version="$(DotNetReleasePackageVersion)" />
+ </ItemGroup>
+
+ <ItemGroup Condition=" '$(TargetFrameworkIdentifier)' == '.NETStandard' ">
+  <Using Include="Backport.ArgumentException" Alias="ArgumentException" />
+  <Using Include="Backport.ArgumentNullException" Alias="ArgumentNullException" />
+  <Using Include="Asp.Versioning.Http.SR" Alias="BackportSR" />
+ </ItemGroup>
+
+ <ItemGroup>
+  <ProjectReference Include="..\..\..\Abstractions\src\Asp.Versioning.Abstractions\Asp.Versioning.Abstractions.csproj" />
+ </ItemGroup>
+
+</Project>
